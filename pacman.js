@@ -56,6 +56,10 @@ function eatGhost(ghost){
     lives -= 1;
     checkLives(lives);
     console.log('\nPac-Man was killed by the ' + ghost.color + '-coloured ' + ghost.name + '!');
+  } else {
+    score += 200;
+    ghost.edible = false;
+    console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!');
   }
 }
 
