@@ -5,7 +5,7 @@ var lives = 2;
 
 // Define your ghosts here
 var inky = {
-  menu_option: '1',
+  menuOption: '1',
   name: "Inky",
   color: "Red",
   character: "Shadow",
@@ -13,7 +13,7 @@ var inky = {
 };
 
 var blinky = {
-  menu_option: '2',
+  menuOption: '2',
   name: "Blinky",
   color: "Cyan",
   character: "Speedy",
@@ -21,7 +21,7 @@ var blinky = {
 };
 
 var pinky = {
-  menu_option: '3',
+  menuOption: '3',
   name: "Pinky",
   color: "Pink",
   character: "Bashful",
@@ -29,7 +29,7 @@ var pinky = {
 };
 
 var clyde = {
-  menu_option: '4',
+  menuOption: '4',
   name: "Clyde",
   color: "Orange",
   character: "Pokey",
@@ -38,14 +38,11 @@ var clyde = {
 
 var ghosts = [inky, blinky, pinky, clyde];
 
-function chooseGhosts(ghosts){
-  var result = "";
-  for (var number = 0; number < ghosts.length; number++){
-    var ghostNumber = ghosts[number].menu_option;
-    var name   = ghosts[number].name;
-    result += "(" + ghostNumber + ")" + " Eat " + name + "\n";
+function eatGhost(ghost){
+  if (ghost.edible === false){
+    lives -= 1;
+    console.log('\nPac-Man was killed by the ' + ghost.color + '-coloured ' + ghost.name + '!');
   }
-  return result;
 }
 
 // Draw the screen functionality
@@ -69,8 +66,10 @@ function displayStats() {
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
-  console.log(chooseGhosts(ghosts));
-  console.log('(q) Quit');
+  ghosts.forEach(function(ghost){
+     console.log("(" + ghost.menuOption + ") Eat " + ghost.name );
+   });
+   console.log('(q) Quit');
 }
 
 function displayPrompt() {
@@ -92,6 +91,18 @@ function processInput(key) {
     case '\u0003': // This makes it so CTRL-C will quit the program
     case 'q':
       process.exit();
+      break;
+    case '1':
+      eatGhost(ghosts[0]);
+      break;
+    case '2':
+      eatGhost(ghosts[1]);
+      break;
+    case '3':
+      eatGhost(ghosts[2]);
+      break;
+    case '4':
+      eatGhost(ghosts[3]);
       break;
     case 'd':
       eatDot();
@@ -119,7 +130,7 @@ drawScreen();
 stdin.on('data', function(key) {
   process.stdout.write(key);
   processInput(key);
-  setTimeout(drawScreen, 300); // The command prompt will flash a message for 300 milliseoncds before it re-draws the screen. You can adjust the 300 number to increase this.
+  setTimeout(drawScreen, 1000); // The command prompt will flash a message for 300 milliseoncds before it re-draws the screen. You can adjust the 300 number to increase this.
 });
 
 // Player Quits
