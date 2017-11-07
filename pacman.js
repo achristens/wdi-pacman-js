@@ -36,9 +36,17 @@ var clyde = {
   edible: false
 };
 
+var ghosts = [inky, blinky, pinky, clyde];
 
-// replace this comment with your four ghosts setup as objects
-
+function chooseGhosts(ghosts){
+  var result = "";
+  for (var number = 0; number < ghosts.length; number++){
+    var ghostNumber = ghosts[number].menu_option;
+    var name   = ghosts[number].name;
+    result += "(" + ghostNumber + ")" + " Eat " + name + "\n";
+  }
+  return result;
+}
 
 // Draw the screen functionality
 function drawScreen() {
@@ -61,6 +69,7 @@ function displayStats() {
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
+  console.log(chooseGhosts(ghosts));
   console.log('(q) Quit');
 }
 
