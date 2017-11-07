@@ -2,6 +2,7 @@
 var score        = 0;
 var lives        = 2;
 var powerPellets = 4;
+var dots         = 240;
 
 // Define your ghosts here
 var inky = {
@@ -47,11 +48,17 @@ function checkLives(){
 function checkPellets(){
   if (powerPellets > 0){
     console.log('(p) Eat Power-Pellet');
-  } else {
-
   }
-};
+}
 
+function checkDots(){
+  if (dots > 100){
+    console.log('(t) Eat 10 Dots');
+    console.log('(h) Eat 100 Dots');
+  } else if (dots > 10 && dots < 100){
+    console.log('(t) Eat 10 Dots')
+  }
+}
 function displayEdible(ghost){
   if (ghost.edible === false){
     return "inedible";
@@ -85,6 +92,7 @@ function drawScreen() {
   setTimeout(function() {
     displayStats();
     displayPellets();
+    displayDots();
     displayMenu();
     displayPrompt();
   }, 10);
@@ -102,9 +110,15 @@ function displayPellets(){
   console.log('\n\nPower-Pellets: ' + powerPellets);
 }
 
+function displayDots(){
+  console.log('\n\nDots Remaining: ' + dots);
+}
+
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
-  console.log('(d) Eat Dot');
+  console.log('(d) Eat 1 Dot');
+  checkDots();
+  console.log('(a) Eat All the Dots');
   checkPellets();
   ghosts.forEach(function(ghost){
      console.log("(" + ghost.menuOption + ") Eat " + ghost.name + " (" + displayEdible(ghost) + ")");
@@ -121,9 +135,27 @@ function displayPrompt() {
 // Menu Options
 function eatDot() {
   console.log('\nChomp!');
+  dots -= 1;
   score += 10;
 }
 
+function eatTenDots(){
+  console.log('\nChomp ten times!');
+  dots -= 10;
+  score += 50;
+}
+
+function eatHundredDots(){
+  console.log('\nChomp a hundred times!');
+  dots -= 100;
+  score += 100;
+}
+
+function eatAllDots(){
+  console.log('\nCHOMPING ALL DA DOTS!!!');
+  dots = 0;
+  score += 150;
+}
 
 // Process Player's Input
 function processInput(key) {
@@ -146,6 +178,23 @@ function processInput(key) {
       break;
     case 'd':
       eatDot();
+      break;
+    case 't':
+      if (dots < 10){
+        console.log('\nNot enough dots to chomp :(');
+      } else {
+        eatTenDots();
+      }
+      break;
+    case 'h':
+      if (dots < 100){
+        console.log('\nNot enough dots to chomp :(');
+      } else {
+      eatHundredDots();
+    }
+      break;
+    case 'a':
+      eatAllDots();
       break;
     case 'p':
       if (powerPellets > 0){
