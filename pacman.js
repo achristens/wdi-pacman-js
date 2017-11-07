@@ -53,6 +53,13 @@ function eatGhost(ghost){
     }
   }
 
+function eatPowerPellet(){
+  score += 50;
+  powerPellets -= 1;
+  ghosts.forEach(function(ghost){
+    ghost.edible = true;
+   });
+}
 
 // Draw the screen functionality
 function drawScreen() {
@@ -80,6 +87,7 @@ function displayPellets(){
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
+  console.log('(p) Eat Power-Pellet');
   ghosts.forEach(function(ghost){
      console.log("(" + ghost.menuOption + ") Eat " + ghost.name );
    });
@@ -120,6 +128,9 @@ function processInput(key) {
       break;
     case 'd':
       eatDot();
+      break;
+    case 'p':
+      eatPowerPellet();
       break;
     default:
       console.log('\nInvalid Command!');
