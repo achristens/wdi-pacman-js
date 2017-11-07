@@ -51,6 +51,14 @@ function checkPellets(){
 
   }
 };
+
+function displayEdible(ghost){
+  if (ghost.edible === false){
+    return "inedible";
+  } else{
+    return "edible";
+  }
+}
 function eatGhost(ghost){
   if (ghost.edible === false){
     lives -= 1;
@@ -99,7 +107,7 @@ function displayMenu() {
   console.log('(d) Eat Dot');
   checkPellets();
   ghosts.forEach(function(ghost){
-     console.log("(" + ghost.menuOption + ") Eat " + ghost.name );
+     console.log("(" + ghost.menuOption + ") Eat " + ghost.name + " (" + displayEdible(ghost) + ")");
    });
    console.log('(q) Quit');
 }
