@@ -44,14 +44,20 @@ function checkLives(){
     console.log("Game over!");
   }
 }
+function checkPellets(){
+  if (powerPellets > 0){
+    console.log('(p) Eat Power-Pellet');
+  } else {
 
+  }
+};
 function eatGhost(ghost){
   if (ghost.edible === false){
     lives -= 1;
     checkLives(lives);
     console.log('\nPac-Man was killed by the ' + ghost.color + '-coloured ' + ghost.name + '!');
-    }
   }
+}
 
 function eatPowerPellet(){
   score += 50;
@@ -87,7 +93,7 @@ function displayPellets(){
 function displayMenu() {
   console.log('\n\nSelect Option:\n');  // each \n creates a new line
   console.log('(d) Eat Dot');
-  console.log('(p) Eat Power-Pellet');
+  checkPellets();
   ghosts.forEach(function(ghost){
      console.log("(" + ghost.menuOption + ") Eat " + ghost.name );
    });
@@ -130,7 +136,11 @@ function processInput(key) {
       eatDot();
       break;
     case 'p':
-      eatPowerPellet();
+      if (powerPellets > 0){
+        eatPowerPellet();
+      } else{
+        console.log('\nNo Power-Pellets left!');
+        }
       break;
     default:
       console.log('\nInvalid Command!');
