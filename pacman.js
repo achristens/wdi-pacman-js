@@ -38,12 +38,21 @@ var clyde = {
 
 var ghosts = [inky, blinky, pinky, clyde];
 
+function checkLives(){
+  if (lives === 0){
+    process.exit();
+    console.log("Game over!");
+  }
+}
+
 function eatGhost(ghost){
   if (ghost.edible === false){
     lives -= 1;
+    checkLives(lives);
     console.log('\nPac-Man was killed by the ' + ghost.color + '-coloured ' + ghost.name + '!');
+    }
   }
-}
+
 
 // Draw the screen functionality
 function drawScreen() {
