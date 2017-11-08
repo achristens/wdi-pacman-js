@@ -3,6 +3,7 @@ var score        = 0;
 var lives        = 2;
 var powerPellets = 4;
 var dots         = 240;
+var ghostsEaten  = 0;
 
 // Define your ghosts here
 var inky = {
@@ -67,14 +68,38 @@ function displayEdible(ghost){
   }
 }
 function eatGhost(ghost){
+
   if (ghost.edible === false){
     lives -= 1;
     checkLives(lives);
     console.log('\nPac-Man was killed by the ' + ghost.color + '-coloured ' + ghost.name + '!');
   } else {
-    score += 200;
-    ghost.edible = false;
-    console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!');
+    if (ghostsEaten === 0) {
+      score += 200;
+      ghostsEaten += 1;
+      ghost.edible = false;
+      console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!');
+    } else if (ghostsEaten === 1){
+        score += 400;
+        ghostsEaten += 1;
+        ghost.edible = false;
+        console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!');
+    } else if (ghostsEaten === 2){
+        score += 800;
+        ghostsEaten += 1;
+        ghost.edible = false;
+        console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!');
+    } else if (ghostsEaten === 3){
+        score += 1600;
+        ghostsEaten += 1;
+        ghost.edible += false;
+        console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!');
+    } else {
+      score += 2000;
+      ghostsEaten += 1;
+      ghost.edible += false;
+      console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!')
+    }
   }
 }
 
