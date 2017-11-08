@@ -4,6 +4,7 @@ var lives        = 2;
 var powerPellets = 4;
 var dots         = 240;
 var ghostsEaten  = 0;
+var level        = 1;
 
 // Define your ghosts here
 var inky = {
@@ -40,6 +41,39 @@ var clyde = {
 
 var ghosts = [inky, blinky, pinky, clyde];
 
+var fruitList = ['Cherry', 'Strawberry', 'Orange', "Apple", 'Pineapple', 'Galaxian Spaceship', 'Bell', 'Key']
+
+function checkLevels(array){
+  var fruitLevels = {};
+  for (var i = 1; i < 20; i++)
+    if (i === 1){
+      fruitLevels[i] = array[0];
+    } else if (i === 2){
+      fruitLevels[i] = array[1]
+    } else if (i === 3 || i === 4){
+      fruitLevels[i] = array[2];
+    } else if (i === 5 || i === 6){
+      fruitLevels[i] = array[3];
+    } else if (i === 7 || i === 8){
+      fruitLevels[i] = array[4];
+    } else if (i === 9 || i === 10){
+      fruitLevels[i] = array[5];
+    } else if (i === 11 || i === 12){
+      fruitLevels[i] = array[6];
+    } else if (i > 12){
+      fruitLevels[i] = array[7];
+    }
+  return fruitLevels[level]
+}
+
+function levelUp(){
+  if (powerPellets === 0 && dots === 0){
+    level += 1;
+    powerPellets = 4;
+    dots = 240;
+  }
+}
+
 function checkLives(){
   if (lives === 0){
     process.exit();
@@ -68,7 +102,6 @@ function displayEdible(ghost){
   }
 }
 function eatGhost(ghost){
-
   if (ghost.edible === false){
     lives -= 1;
     checkLives(lives);
@@ -92,14 +125,15 @@ function eatGhost(ghost){
     } else if (ghostsEaten === 3){
         score += 1600;
         ghostsEaten += 1;
-        ghost.edible += false;
+        ghost.edible = false;
         console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!');
     } else {
       score += 2000;
       ghostsEaten += 1;
-      ghost.edible += false;
+      ghost.edible = false;
       console.log('\nPac-Man totally destroyed the ' + ghost.color + '-coloured ' + ghost.name + '!')
     }
+    levelUp();
   }
 }
 
@@ -109,6 +143,7 @@ function eatPowerPellet(){
   ghosts.forEach(function(ghost){
     ghost.edible = true;
    });
+   levelUp();
 }
 
 // Draw the screen functionality
@@ -128,7 +163,7 @@ function clearScreen() {
 }
 
 function displayStats() {
-  console.log('Score: ' + score + '     Lives: ' + lives);
+  console.log('Score: ' + score + '     Lives: ' + lives + '     Level: ' + level);
 }
 
 function displayPellets(){
@@ -145,6 +180,7 @@ function displayMenu() {
   checkDots();
   console.log('(a) Eat All the Dots');
   checkPellets();
+  console.log('(f) Eat ' + checkLevels(fruitList));
   ghosts.forEach(function(ghost){
      console.log("(" + ghost.menuOption + ") Eat " + ghost.name + " (" + displayEdible(ghost) + ")");
    });
@@ -180,6 +216,26 @@ function eatAllDots(){
   console.log('\nCHOMPING ALL DA DOTS!!!');
   dots = 0;
   score += 150;
+}
+
+function fruitPoints(){
+  if (level === 1){
+    score += 100;
+  } else if (level === 2){
+    score += 300;
+  } else if (level === 3 || level === 4){
+    score += 500;
+  } else if (level === 5 || level === 6){
+    score += 700;
+  } else if (level === 7 || level === 8){
+    score += 1000;
+  } else if (level === 9 || level === 10){
+    score += 2000;
+  } else if (level === 11 || level === 12){
+    score += 3000;
+  } else{
+    score += 5000;
+  }
 }
 
 // Process Player's Input
@@ -220,6 +276,10 @@ function processInput(key) {
       break;
     case 'a':
       eatAllDots();
+      break;
+    case 'f':
+      fruitPoints();
+      console.log('\nYou just ate a bonus fruit!');
       break;
     case 'p':
       if (powerPellets > 0){
