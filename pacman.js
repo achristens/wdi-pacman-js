@@ -195,7 +195,6 @@ function displayMenu() {
   console.log('(a) Eat All the Dots');
   checkPellets();
   showMenu();
-  // console.log('(f) Eat ' + checkLevels(fruitList));
   ghosts.forEach(function(ghost){
      console.log("(" + ghost.menuOption + ") Eat " + ghost.name + " (" + displayEdible(ghost) + ")");
    });
