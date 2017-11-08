@@ -74,6 +74,20 @@ function levelUp(){
   }
 }
 
+var random = 0;
+
+function selectRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  random = Math.floor(Math.random() * (max - min)) + min;
+  return random
+}
+
+function showMenu() {
+  if (random === 1){
+    console.log('(f) Eat ' + checkLevels(fruitList));
+  }
+}
 function checkLives(){
   if (lives === 0){
     process.exit();
@@ -180,7 +194,8 @@ function displayMenu() {
   checkDots();
   console.log('(a) Eat All the Dots');
   checkPellets();
-  console.log('(f) Eat ' + checkLevels(fruitList));
+  showMenu();
+  // console.log('(f) Eat ' + checkLevels(fruitList));
   ghosts.forEach(function(ghost){
      console.log("(" + ghost.menuOption + ") Eat " + ghost.name + " (" + displayEdible(ghost) + ")");
    });
@@ -311,6 +326,7 @@ drawScreen();
 stdin.on('data', function(key) {
   process.stdout.write(key);
   processInput(key);
+  selectRandom(1, 5);
   setTimeout(drawScreen, 1000); // The command prompt will flash a message for 300 milliseoncds before it re-draws the screen. You can adjust the 300 number to increase this.
 });
 
